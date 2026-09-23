@@ -1,132 +1,45 @@
 <!DOCTYPE html>
-<html lang="es"> 
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Game Boy Red Edition</title>
+    <title>GBA Player</title>
     <style>
-        * {
-            box-sizing: border-box;
-        }
         body, html {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
-            background-color: #121212;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background-color: #000;
             overflow: hidden;
-            font-family: Arial, sans-serif;
         }
-
-        /* --- Carcasa de Game Boy Color Rojo --- */
-        .gb-shell {
-            background-color: #d32f2f; /* Rojo Game Boy */
-            border-radius: 12px 12px 40px 12px;
-            padding: 20px 20px 30px 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.7), inset 0 2px 5px rgba(255,255,255,0.3);
-            width: 95vw;
-            max-width: 420px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            border: 3px solid #b71c1c;
-        }
-
-        /* --- Bisel / Marco alrededor de la pantalla --- */
-        .screen-bezel {
-            background-color: #37474f; /* Gris oscuro clásico */
-            border-radius: 10px 10px 30px 10px;
-            padding: 15px 15px 25px 15px;
-            width: 100%;
-            box-shadow: inset 0 3px 8px rgba(0,0,0,0.8);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .screen-header {
-            width: 100%;
-            color: #b0bec5;
-            font-size: 10px;
-            font-weight: bold;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .power-led {
-            width: 8px;
-            height: 8px;
-            background-color: #ff1744;
-            border-radius: 50%;
-            box-shadow: 0 0 6px #ff1744;
-        }
-
-        /* --- Contenedor del Emulador --- */
         #game-container {
             width: 100%;
-            aspect-ratio: 10 / 9; /* Formato de pantalla retro */
-            background-color: #000;
-            border-radius: 4px;
-            overflow: hidden;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.9);
-        }
-
-        #game {
-            width: 100%;
             height: 100%;
-        }
-
-        .gb-logo {
-            color: #ffffff;
-            font-style: italic;
-            font-weight: bold;
-            font-size: 14px;
-            margin-top: 15px;
-            letter-spacing: 1px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
         }
     </style>
 </head>
 <body>
-
-    <!-- Carcasa Virtual Rojo Game Boy -->
-    <div class="gb-shell">
-        <div class="screen-bezel">
-            <div class="screen-header">
-                <div style="display: flex; align-items: center; gap: 5px;">
-                    <div class="power-led"></div>
-                    <span>BATTERY</span>
-                </div>
-                <span>DOT MATRIX WITH STEREO SOUND</span>
-            </div>
-            
-            <!-- Area del Juego -->
-            <div id="game-container">
-                <div id="game"></div>
-            </div>
-        </div>
-        <div class="gb-logo">Nintendo GAME BOY™</div>
+    <div id="game-container">
+        <div id="game"></div>
     </div>
 
     <script type="text/javascript">
         EJS_player = '#game';
-        EJS_core = 'gb'; 
-
-        // Carga dinámica por parámetro de URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const romParam = urlParams.get('rom') || 'PKMN-R.gb';
-        EJS_gameUrl = 'https://laguaridadeldragonstore.github.io/EMU/PK/RED/' + romParam;
         
+        // --- NÚCLEO PARA GBA ---
+        EJS_core = 'gb'; 
+        
+        // Ruta al archivo .gba dentro de esta misma carpeta
+        EJS_gameUrl = 'https://laguaridadeldragonstore.github.io/EMU/PK/RED/PKMN-R.gb';
+        
+        // Servidor del emulador
         EJS_pathtodata = 'https://cdn.emulatorjs.org/stable/data/';
+        
+        // MOSTRAR BOTÓN DE INICIO (Esperar a que el usuario toque la pantalla)
+        EJS_startOnLoaded = true; 
 
-        // Opciones de inicio y rendimiento de audio
-        EJS_startOnLoaded = true;
+        // AJUSTES DE AUDIO Y RENDIMIENTO
         EJS_threads = false;
         EJS_forceLegacyAudio = true;
     </script>
