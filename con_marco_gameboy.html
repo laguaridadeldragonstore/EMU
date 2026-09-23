@@ -21,25 +21,28 @@
             font-family: Arial, sans-serif;
         }
 
-        /* --- Carcasa de Game Boy Color Rojo --- */
+        /* --- Carcasa exterior de Game Boy Rojo --- */
         .gb-shell {
-            background-color: #d32f2f; /* Rojo Game Boy */
+            background-color: #d32f2f;
             border-radius: 12px 12px 40px 12px;
-            padding: 20px 20px 30px 20px;
+            padding: 15px 15px 20px 15px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.7), inset 0 2px 5px rgba(255,255,255,0.3);
-            width: 95vw;
-            max-width: 420px;
+            width: 100vw;
+            max-width: 440px;
+            height: 100vh;
+            max-height: 700px;
             display: flex;
             flex-direction: column;
             align-items: center;
             border: 3px solid #b71c1c;
+            position: relative;
         }
 
-        /* --- Bisel / Marco alrededor de la pantalla --- */
+        /* --- Bisel de la pantalla --- */
         .screen-bezel {
-            background-color: #37474f; /* Gris oscuro clásico */
+            background-color: #37474f;
             border-radius: 10px 10px 30px 10px;
-            padding: 15px 15px 25px 15px;
+            padding: 12px 12px 16px 12px;
             width: 100%;
             box-shadow: inset 0 3px 8px rgba(0,0,0,0.8);
             display: flex;
@@ -67,27 +70,37 @@
             box-shadow: 0 0 6px #ff1744;
         }
 
-        /* --- Contenedor del Emulador --- */
+        /* --- Contenedor aislado del juego --- */
         #game-container {
             width: 100%;
-            aspect-ratio: 10 / 9; /* Formato de pantalla retro */
+            aspect-ratio: 3 / 2; /* Proporción nativa de GBA */
             background-color: #000;
             border-radius: 4px;
             overflow: hidden;
+            position: relative;
             box-shadow: inset 0 0 10px rgba(0,0,0,0.9);
         }
 
         #game {
             width: 100%;
             height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        /* CORRECCIÓN: Encapsular controles táctiles de EmulatorJS para que no floten fuera del área de juego */
+        #game * {
+            max-width: 100% !important;
+            max-height: 100% !important;
         }
 
         .gb-logo {
             color: #ffffff;
             font-style: italic;
             font-weight: bold;
-            font-size: 14px;
-            margin-top: 15px;
+            font-size: 13px;
+            margin-top: 10px;
             letter-spacing: 1px;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
         }
@@ -95,7 +108,6 @@
 </head>
 <body>
 
-    <!-- Carcasa Virtual Rojo Game Boy -->
     <div class="gb-shell">
         <div class="screen-bezel">
             <div class="screen-header">
@@ -103,29 +115,26 @@
                     <div class="power-led"></div>
                     <span>BATTERY</span>
                 </div>
-                <span>DOT MATRIX WITH STEREO SOUND</span>
+                <span>ADVANCE COLOR SYSTEM</span>
             </div>
             
-            <!-- Area del Juego -->
             <div id="game-container">
                 <div id="game"></div>
             </div>
         </div>
-        <div class="gb-logo">Nintendo GAME BOY™</div>
+        <div class="gb-logo">Game Boy Advance™</div>
     </div>
 
     <script type="text/javascript">
         EJS_player = '#game';
         EJS_core = 'gba'; 
 
-        // Carga dinámica por parámetro de URL
         const urlParams = new URLSearchParams(window.location.search);
         const romParam = urlParams.get('rom') || 'PKMN-FR.gba';
         EJS_gameUrl = 'https://laguaridadeldragonstore.github.io/GBA/' + romParam;
         
         EJS_pathtodata = 'https://cdn.emulatorjs.org/stable/data/';
 
-        // Opciones de inicio y rendimiento de audio
         EJS_startOnLoaded = true;
         EJS_threads = false;
         EJS_forceLegacyAudio = true;
